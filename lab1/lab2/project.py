@@ -1,101 +1,68 @@
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 设置样式
-plt.style.use('seaborn-v0_8-darkgrid')
+# 设置中文字体（可选）
+plt.rcParams["font.family"] = ["SimHei"]
+plt.rcParams["axes.unicode_minus"] = False  # 解决负号显示问题
 
-# 创建图形和子图
-fig, axs = plt.subplots(2, 2, figsize=(12, 8))
-fig.suptitle('Basic Signal Visualization', fontsize=16, fontweight='bold')
+# 1. 创建时间序列
+t = np.linspace(0, 2 * np.pi, 1000)  # 从0到2π，1000个点
 
-# 1. Continuous Cosine Signal
-t_continuous = np.linspace(-2*np.pi, 2*np.pi, 1000)
-cos_signal = np.cos(2 * np.pi * 1.0 * t_continuous)
+# 2. 生成连续正弦信号
+x_continuous = np.sin(t)  # 基本正弦信号
 
-axs[0, 0].plot(t_continuous, cos_signal, 'b-', linewidth=2, label='cos(2πt)')
-axs[0, 0].set_xlabel('Time (t)', fontsize=12)
-axs[0, 0].set_ylabel('Amplitude', fontsize=12)
-axs[0, 0].set_title('Continuous Cosine Signal', fontsize=14, fontweight='bold')
-axs[0, 0].grid(True, alpha=0.3)
-axs[0, 0].legend(loc='upper right')
-axs[0, 0].axhline(y=0, color='k', linestyle='-', linewidth=0.5)
-axs[0, 0].axvline(x=0, color='k', linestyle='-', linewidth=0.5)
+# 3. 绘制图形
+plt.figure(figsize=(10, 5))
 
-# 2. Discrete Unit Step Signal
-n_discrete = np.arange(-10, 11)
-unit_step = np.where(n_discrete >= 0, 1, 0)
+# 连续时间正弦信号
+plt.subplot(1, 2, 1)
+plt.plot(t, x_continuous, 'b-', linewidth=2)
+plt.title("连续时间正弦信号")
+plt.xlabel("时间 t")
+plt.ylabel("幅度")
+plt.grid(True) 
+"""
 
-markerline, stemlines, baseline = axs[0, 1].stem(n_discrete, unit_step, linefmt='g-', 
-                                                  markerfmt='go', basefmt='k-', label='u[n]')
-plt.setp(stemlines, linewidth=1.5)
-plt.setp(markerline, markersize=8)
-axs[0, 1].set_xlabel('Sample (n)', fontsize=12)
-axs[0, 1].set_ylabel('Amplitude', fontsize=12)
-axs[0, 1].set_title('Discrete Unit Step Signal', fontsize=14, fontweight='bold')
-axs[0, 1].set_xticks(np.arange(-10, 11, 2))
-axs[0, 1].grid(True, alpha=0.3)
-axs[0, 1].legend(loc='upper right')
-axs[0, 1].set_ylim(-0.2, 1.5)
 
-# 3. Continuous Sawtooth Signal
-t_sawtooth = np.linspace(-2, 2, 1000)
-sawtooth_signal = 2 * (t_sawtooth - np.floor(t_sawtooth + 0.5))
 
-axs[1, 0].plot(t_sawtooth, sawtooth_signal, 'm-', linewidth=2, label='Sawtooth')
-axs[1, 0].set_xlabel('Time (t)', fontsize=12)
-axs[1, 0].set_ylabel('Amplitude', fontsize=12)
-axs[1, 0].set_title('Continuous Sawtooth Signal', fontsize=14, fontweight='bold')
-axs[1, 0].grid(True, alpha=0.3)
-axs[1, 0].legend(loc='upper right')
-axs[1, 0].axhline(y=0, color='k', linestyle='-', linewidth=0.5)
-axs[1, 0].axvline(x=0, color='k', linestyle='-', linewidth=0.5)
 
-# 4. Discrete Unit Impulse Signal
-n_impulse = np.arange(-5, 6)
-unit_impulse = np.where(n_impulse == 0, 1, 0)
 
-markerline2, stemlines2, baseline2 = axs[1, 1].stem(n_impulse, unit_impulse, linefmt='r-', 
-                                                    markerfmt='ro', basefmt='k-', label='δ[n]')
-plt.setp(stemlines2, linewidth=1.5)
-plt.setp(markerline2, markersize=8)
-axs[1, 1].set_xlabel('Sample (n)', fontsize=12)
-axs[1, 1].set_ylabel('Amplitude', fontsize=12)
-axs[1, 1].set_title('Discrete Unit Impulse Signal', fontsize=14, fontweight='bold')
-axs[1, 1].set_xticks(np.arange(-5, 6, 1))
-axs[1, 1].grid(True, alpha=0.3)
-axs[1, 1].legend(loc='upper right')
-axs[1, 1].set_ylim(-0.2, 1.5)
+import matplotlib.pyplot as plt
+import numpy as np
 
-# 调整布局
+# 1. 定义离散时间点 (n)
+n = np.arange(-5, 6, 1)  # 起始， 终止（不含）， 步长
+
+# 2. 定义离散信号的幅值 u[n]
+# 这里以一个简单的指数衰减信号为例: u[n] = 0.8^n * u[n]，其中u[n]是单位阶跃信号
+# 为了方便演示，我们直接定义一个简单的有限长序列
+u_n = np.array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
+
+
+# 3. 绘制离散信号（茎状图，stem plot）
+plt.figure(figsize=(10, 6))  # 设置图像大小
+stem_container = plt.stem(n, u_n, linefmt='b-', markerfmt='bo', basefmt='r-')
+plt.setp(stem_container[1], 'linewidth', 2)  # 设置茎线宽度
+plt.setp(stem_container[0], 'markersize', 6)  # 设置标记点大小
+
+# 4. 添加图形标签和标题
+plt.title('u[n]', fontsize=14)
+plt.xlabel('Discrete Time Index (n)', fontsize=12)
+plt.ylabel('Amplitude u[n]', fontsize=12)
+plt.grid(True, which='both', linestyle='--', alpha=0.6)  # 添加网格
+plt.axhline(y=0, color='k', linewidth=0.8)  # 在y=0处画一条黑线
+plt.axvline(x=0, color='k', linewidth=0.8)  # 在x=0处画一条黑线
+
+# 5. 调整坐标轴范围，让图形显示更清晰
+plt.xlim([n.min() - 1, n.max() + 1])
+plt.ylim([u_n.min() -0.1, u_n.max() + 0.7])
+
+
+
+
+
+
+# 6. 显示图形
 plt.tight_layout()
-
-# 保存图片
-plt.savefig('basic_signals_english.png', dpi=300, bbox_inches='tight')
-
-# 显示图形
 plt.show()
-
-print("=" * 60)
-print("Signal Information:")
-print("=" * 60)
-print("1. Continuous Cosine Signal:")
-print(f"   Time range: {-2*np.pi:.2f} to {2*np.pi:.2f}")
-print(f"   Frequency: 1.0 Hz")
-print(f"   Amplitude: 1.0")
-print(f"   Samples: {len(t_continuous)}")
-
-print("\n2. Discrete Unit Step Signal:")
-print(f"   Time range: {n_discrete[0]} to {n_discrete[-1]}")
-print(f"   Step at: n = 0")
-print(f"   Signal length: {len(n_discrete)}")
-
-print("\n3. Continuous Sawtooth Signal:")
-print(f"   Time range: {t_sawtooth[0]:.2f} to {t_sawtooth[-1]:.2f}")
-print(f"   Period: 1")
-print(f"   Samples: {len(t_sawtooth)}")
-
-print("\n4. Discrete Unit Impulse Signal:")
-print(f"   Time range: {n_impulse[0]} to {n_impulse[-1]}")
-print(f"   Impulse at: n = 0")
-print(f"   Signal length: {len(n_impulse)}")
-print("=" * 60)
