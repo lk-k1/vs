@@ -1,4 +1,4 @@
-"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -22,12 +22,12 @@ plt.title("连续时间正弦信号")
 plt.xlabel("时间 t")
 plt.ylabel("幅度")
 plt.grid(True) 
+
+
+
+
+
 """
-
-
-
-
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -36,7 +36,6 @@ n = np.arange(-5, 6, 1)  # 起始， 终止（不含）， 步长
 
 # 2. 定义离散信号的幅值 u[n]
 # 这里以一个简单的指数衰减信号为例: u[n] = 0.8^n * u[n]，其中u[n]是单位阶跃信号
-# 为了方便演示，我们直接定义一个简单的有限长序列
 u_n = np.array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1])
 
 
@@ -54,11 +53,11 @@ plt.grid(True, which='both', linestyle='--', alpha=0.6)  # 添加网格
 plt.axhline(y=0, color='k', linewidth=0.8)  # 在y=0处画一条黑线
 plt.axvline(x=0, color='k', linewidth=0.8)  # 在x=0处画一条黑线
 
-# 5. 调整坐标轴范围，让图形显示更清晰
+# 5. 调整坐标轴范围
 plt.xlim([n.min() - 1, n.max() + 1])
 plt.ylim([u_n.min() -0.1, u_n.max() + 0.7])
 
-
+"""
 
 
 
